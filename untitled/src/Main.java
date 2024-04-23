@@ -148,7 +148,7 @@ public class Main {
                     case 1:
                         enemy1.healthPoints -= damage;
                         if (enemy1.healthPoints <= 0) {
-                            expGainded = enemy1.level*10+rand.nextInt(1,10);
+                            expGainded = enemy1.level+rand.nextInt(1,10);
                             player.amountOfExpierience += expGainded;
                             System.out.println("You kill " + enemy1.type + " and gain " + expGainded + " exp");
                             enemiesLeft -= 1;
@@ -157,7 +157,7 @@ public class Main {
                     case 2:
                         enemy2.healthPoints -= damage;
                         if (enemy2.healthPoints <= 0) {
-                            expGainded = enemy2.level*10+rand.nextInt(1,10);
+                            expGainded = enemy2.level*10+rand.nextInt(5,35);
                             player.amountOfExpierience += expGainded;
                             System.out.println("You kill " + enemy2.type + " and gain " + expGainded + " exp");
                             enemiesLeft -= 1;
@@ -191,21 +191,21 @@ public class Main {
                     whichEnemy = rand.nextInt(1,enemiesLeft+1);
                     switch (whichEnemy) {
                         case 1:
-                            damage = rand.nextInt(enemy1.strenght,enemy1.strenght+1)-player.level.armor/2;
+                            damage = rand.nextInt(enemy1.strenght,enemy1.strenght+1)/4-player.level.armor/2+1;
                             damage = damage+enemy1.strenght/2;
                             System.out.println(enemy1.type + " attacks you for " + damage + " hp");
                             player.level.healthPoints -= damage;
                             System.out.println("You have " + player.level.healthPoints + " hp left");
                             break;
                         case 2:
-                            damage = rand.nextInt(enemy2.strenght,enemy2.strenght+1)-player.level.armor/2;
+                            damage = rand.nextInt(enemy2.strenght,enemy2.strenght+1)/4-player.level.armor/2+1;
                             damage = damage+enemy1.strenght/2;
                             System.out.println(enemy2.type + " attacks you for " + damage + " hp");
                             player.level.healthPoints -= damage;
                             System.out.println("You have " + player.level.healthPoints + " hp left");
                             break;
                         case 3:
-                            damage = rand.nextInt(enemy3.strenght,enemy3.strenght+1)-player.level.armor/2;
+                            damage = rand.nextInt(enemy3.strenght,enemy3.strenght+1)/4-player.level.armor/2+1;
                             damage = damage+enemy1.strenght/2;
                             System.out.println(enemy3.type + " attacks you for " + damage + " hp");
                             player.level.healthPoints -= damage;
@@ -216,8 +216,17 @@ public class Main {
                         System.out.println("You died");
                         break game;
                     }
-                    System.out.println("You regenerate " + player.level.level + " hp and now have " + (player.level.healthPoints+player.level.level) + " hp" );
-                    player.level.healthPoints += player.level.level;
+                    if (player.level.healthPoints < Levels.values()[player.level.ordinal()+1].healthPoints) {
+                        if (player.level.healthPoints+ player.level.level/10+3 > player.level.level) {
+                            System.out.println("You regenerate " + (Levels.values()[player.level.ordinal() + 1].healthPoints - player.level.healthPoints) + " hp and now have " + Levels.values()[player.level.ordinal()+1].healthPoints  + " hp" );
+                            player.level.healthPoints = Levels.values()[player.level.ordinal()+1].healthPoints;
+                        }
+                        else {
+                            System.out.println("You regenerate " + (player.level.level/2+2) + " hp and now have " + (player.level.healthPoints+player.level.level/2+2) + " hp" );
+                            player.level.healthPoints += player.level.level/2+2;
+                        }
+
+                    }
                 }
 
                 System.out.println("Type c to continue or r to run away");

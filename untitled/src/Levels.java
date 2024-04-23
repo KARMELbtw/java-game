@@ -1023,7 +1023,7 @@ public enum Levels {
             return values()[ordinal() + 1];
         } else {
             System.out.println("You have reached the max level");
-            return null;
+            return values()[ordinal()];
         }
     }
 
